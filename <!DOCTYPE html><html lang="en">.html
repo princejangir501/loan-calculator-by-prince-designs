@@ -1,0 +1,133 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prince Designs Loan Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f0e6f7, #dff6f0);
+      background-attachment: fixed;
+      color: #333;
+    }header {
+  background: linear-gradient(90deg, #3b080aea, #e98f76);
+  color: #fcf5f5;
+  padding: 30px 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(32, 230, 14, 0.897);
+}
+
+.logo {
+  font-size: 2.5rem;
+  font-family: 'Playfair Display', serif;
+  color: #f1eaea;
+}
+
+.container {
+  max-width: 700px;
+  background: #ffffffcc;
+  margin: 60px auto;
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  text-align: center;
+  color: #2c3e50;
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 30px;
+}
+
+label {
+  display: block;
+  margin: 15px 0 5px;
+  font-weight: 500;
+  color: #444;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  background-color: #6a82fb;
+  color: #fff;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #5a6dfb;
+}
+
+.result {
+  margin-top: 30px;
+  font-size: 1.1rem;
+  text-align: center;
+  color: #222;
+  line-height: 1.6;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Prince Designs</div>
+    <p>Interior Loan Calculator</p>
+  </header>  <div class="container">
+    <h2>Calculate Your EMI</h2>
+    <label>Loan Amount (in ₹):</label>
+    <input type="number" id="amount" placeholder="e.g., 100000"><label>Interest Rate (per annum %):</label>
+<input type="number" id="interest" placeholder="e.g., 10">
+
+<label>Loan Tenure (in months):</label>
+<input type="number" id="tenure" placeholder="e.g., 12">
+
+<label>Processing Fee (in ₹):</label>
+<input type="number" id="processing" placeholder="e.g., 500">
+
+<label>Down Payment (in ₹):</label>
+<input type="number" id="downpayment" placeholder="e.g., 20000">
+
+<button onclick="calculateEMI()">Calculate EMI</button>
+
+<div class="result" id="result"></div>
+
+  </div>  <script>
+    function calculateEMI() {
+      const P = parseFloat(document.getElementById('amount').value) - parseFloat(document.getElementById('downpayment').value || 0);
+      const R = parseFloat(document.getElementById('interest').value) / 12 / 100;
+      const N = parseInt(document.getElementById('tenure').value);
+      const fee = parseFloat(document.getElementById('processing').value || 0);
+
+      const EMI = (P * R * Math.pow(1 + R, N)) / (Math.pow(1 + R, N) - 1);
+      const dailyEMI = EMI / 30;
+      const totalPayable = (EMI * N) + fee;
+
+      if (isFinite(EMI)) {
+        document.getElementById('result').innerHTML = `
+          <p><strong>Monthly EMI:</strong> ₹${EMI.toFixed(2)}</p>
+          <p><strong>Approx. Daily EMI:</strong> ₹${dailyEMI.toFixed(2)}</p>
+          <p><strong>Total Payable Amount:</strong> ₹${totalPayable.toFixed(2)}</p>
+        `;
+      } else {
+        document.getElementById('result').innerText = 'Please enter valid values.';
+      }
+    }
+  </script></body>
+</html>
